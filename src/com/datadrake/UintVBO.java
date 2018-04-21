@@ -19,22 +19,24 @@ package com.datadrake;
 
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 /**
  * FloatVBO is just a slightly easier way of managing a VBO for Float data
  */
-public class FloatVBO {
+public class UintVBO {
 
     private int ID;
     private int attrNumber;
     private int attrWidth;
-    private float[] last;
-    private FloatBuffer buff;
+    private int vboType;
+    private int dataType;
+    private int[] last;
+    private IntBuffer buff;
 
     /**
      * Constructor
@@ -46,11 +48,13 @@ public class FloatVBO {
      * @param initial
      *         the starting value
      */
-    public FloatVBO(int attrNumber, int attrWidth, float[] initial) {
+    public UintVBO(int attrNumber, int attrWidth, int vboType, int dataType, int[] initial) {
         ID = GL15.glGenBuffers();
         this.attrNumber = attrNumber;
         this.attrWidth = attrWidth;
-        buff = BufferUtils.createFloatBuffer(initial.length);
+        this.vboType = vboType;
+        this.dataType = dataType;
+        buff = BufferUtils.createIntBuffer(initial.length);
         update(initial);
     }
 
@@ -59,14 +63,15 @@ public class FloatVBO {
      *
      * @param next the new values
      */
-    public void update(float[] next) {
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, ID);
+    public void update(int[] next) {
         last = next;
         buff.put(next);
         buff.flip();
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buff, GL15.GL_DYNAMIC_DRAW);
-        GL20.glVertexAttribPointer(attrNumber, attrWidth, GL11.GL_FLOAT, false, 0, 0);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+        GL15.glBindBuffer(vboType, ID);
+        GL15.glBufferData(vboType, buff, GL15.GL_STATIC_DRAW);
+        if (vboType == GL15.GL_ARRAY_BUFFER)
+            GL20.glVertexAttribPointer(attrNumber, attrWidth, dataType, false, 0, 0);
+        GL15.glBindBuffer(vboType, 0);
     }
 
     /**
@@ -74,7 +79,7 @@ public class FloatVBO {
      *
      * @return the last value
      */
-    public float[] getLast() {
+    public int[] getLast() {
         return last;
     }
 
@@ -83,5 +88,13 @@ public class FloatVBO {
      */
     public void free() {
         GL15.glDeleteBuffers(ID);
+    }
+
+    public void bind() {
+        GL15.glBindBuffer(vboType, ID);
+    }
+
+    public void unbind() {
+        GL15.glBindBuffer(vboType, 0);
     }
 }
