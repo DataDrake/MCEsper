@@ -16,10 +16,11 @@
 
 package com.datadrake;
 
-/*
-    Main for running the game
+/**
+ * Main for running the game
  */
 public class MCEsper {
+
     public static void main(String[] args) {
         Engine engine = new Engine();
         engine.run();

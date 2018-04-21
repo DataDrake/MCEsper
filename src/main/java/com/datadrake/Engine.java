@@ -18,22 +18,33 @@ package com.datadrake;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * The actual game Engine
+ */
 public class Engine {
 
     private WindowManager window;
+    private Player player;
 
+    /**
+     * Constructor
+     */
     public Engine() {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
-        if ( !glfwInit() )
+        if (!glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
+        }
+
+
 
 
         // Create the window
@@ -42,20 +53,33 @@ public class Engine {
         window.registerInputHandler();
         // Show the window
         window.open(true);
+        GL.createCapabilities();
+
+        System.out.println(GL11.glGetString(GL11.GL_VERSION));
+        player = new Player();
     }
 
+    /**
+     * Finish setup and actually start the game
+     */
     public void run() {
-        GL.createCapabilities();
+
         glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
-        while ( window.isValid() ) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        while (window.isValid()) {
+            glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+            glClear(GL_COLOR_BUFFER_BIT );
+            player.render();
             window.swap();
             glfwPollEvents();
         }
     }
 
+    /**
+     * Cleanup before exit
+     */
     public void close() {
         window.close();
+        player.free();
         // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
