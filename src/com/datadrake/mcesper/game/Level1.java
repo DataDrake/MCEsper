@@ -30,9 +30,4 @@ public class Level1 extends Level {
     public void loadPrograms() {
         loadProgram(new WorldProgram(getShaders(), getUniforms()));
     }
-
-    @Override
-    public void loadRenderables() {
-        loadRenderable(new Cube());
-    }
 }

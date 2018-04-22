@@ -18,10 +18,13 @@
 package com.datadrake.mcesper.engine.graphics.shaders.programs;
 
 import com.datadrake.mcesper.engine.data.UniformStore;
+import com.datadrake.mcesper.engine.graphics.Renderable;
 import com.datadrake.mcesper.engine.graphics.shaders.ShaderStore;
 import org.lwjgl.opengl.GL20;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -44,6 +47,9 @@ public abstract class ShaderProgram {
     // Uniform Store
     private UniformStore uniforms;
 
+    //List of Renderables managed by this ShaderProgram
+    private List<Renderable> renderables;
+
     /**
      * Constructor
      *
@@ -53,11 +59,13 @@ public abstract class ShaderProgram {
     ShaderProgram(ShaderStore shaders, UniformStore uniforms) {
         shaderIDs = new HashSet<>();
         uniformNames = new HashSet<>();
+        renderables = new ArrayList<>();
         this.shaders = shaders;
         this.uniforms = uniforms;
         ID = GL20.glCreateProgram();
         loadShaders();
         bindAttributes();
+        loadRenderables();
         GL20.glLinkProgram(ID);
         GL20.glValidateProgram(ID);
     }
@@ -115,11 +123,27 @@ public abstract class ShaderProgram {
     public abstract void bindAttributes();
 
     /**
+     * Add a renderable to this Program
+     *
+     * @param object
+     *         the renderable to add
+     */
+    protected void loadRenderable(Renderable object) {
+        renderables.add(object);
+    }
+
+    /**
+     * Load all renderables
+     */
+    public abstract void loadRenderables();
+
+    /**
      * Execute this program
      */
     public void run() {
         GL20.glUseProgram(ID);
         uniformNames.forEach((name) -> uniforms.load(ID, name));
+        renderables.forEach(Renderable::render);
     }
 
     /**
@@ -139,6 +163,7 @@ public abstract class ShaderProgram {
             shaders.unregister(sID);
         });
         GL20.glDeleteProgram(ID);
+        renderables.forEach(Renderable::free);
     }
 
 }

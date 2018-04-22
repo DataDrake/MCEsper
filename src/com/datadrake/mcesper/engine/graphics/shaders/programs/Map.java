@@ -15,7 +15,7 @@
  *
  */
 
-package com.datadrake.mcesper.game;
+package com.datadrake.mcesper.engine.graphics.shaders.programs;
 
 import com.datadrake.mcesper.engine.data.vbo.FloatVBO;
 import com.datadrake.mcesper.engine.data.vbo.UintVBO;
@@ -28,7 +28,7 @@ import org.lwjgl.opengl.GL30;
 /**
  * The Player object
  */
-public class Cube implements Renderable {
+public class Map implements Renderable {
 
     private final static int VBO_POSITION = 0;
     //private final static int VBO_NORMAL = 1;
@@ -45,7 +45,7 @@ public class Cube implements Renderable {
     /**
      * Constructor
      */
-    public Cube() {
+    public Map() {
         vaoID = GL30.glGenVertexArrays();
         bind();
         position = new FloatVBO(VBO_POSITION, 3, GL15.GL_ARRAY_BUFFER, new float[]{-0.5f, -0.5f, 0,

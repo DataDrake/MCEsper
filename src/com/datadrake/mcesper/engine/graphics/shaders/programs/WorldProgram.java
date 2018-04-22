@@ -40,8 +40,8 @@ public class WorldProgram extends ShaderProgram {
 
     @Override
     public void loadShaders() {
-        loadShader(SHADER_PREFIX +"/vertex.glsl", GL20.GL_VERTEX_SHADER);
-        loadShader(SHADER_PREFIX + "/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
+        loadShader(SHADER_PREFIX + "/map_vertex.glsl", GL20.GL_VERTEX_SHADER);
+        loadShader(SHADER_PREFIX + "/map_fragment.glsl", GL20.GL_FRAGMENT_SHADER);
     }
 
     @Override
@@ -52,5 +52,10 @@ public class WorldProgram extends ShaderProgram {
     @Override
     public void bindAttributes() {
         bindAttribute(0, "position");
+    }
+
+    @Override
+    public void loadRenderables() {
+        loadRenderable(new Map());
     }
 }

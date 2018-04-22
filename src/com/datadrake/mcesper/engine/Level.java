@@ -18,7 +18,6 @@
 package com.datadrake.mcesper.engine;
 
 import com.datadrake.mcesper.engine.data.UniformStore;
-import com.datadrake.mcesper.engine.graphics.Renderable;
 import com.datadrake.mcesper.engine.graphics.shaders.ShaderStore;
 import com.datadrake.mcesper.engine.graphics.shaders.programs.ShaderProgram;
 
@@ -33,7 +32,7 @@ public abstract class Level {
     private UniformStore uniforms;
     private ShaderStore shaders;
     private List<ShaderProgram> programs;
-    private List<Renderable> renderables;
+
 
     /**
      * Constructor
@@ -42,9 +41,8 @@ public abstract class Level {
         uniforms = new UniformStore();
         shaders = new ShaderStore();
         programs = new ArrayList<>();
-        renderables = new ArrayList<>();
+
         loadPrograms();
-        loadRenderables();
     }
 
     /**
@@ -62,20 +60,6 @@ public abstract class Level {
      */
     public abstract void loadPrograms();
 
-    /**
-     * Add a renderable to this level
-     *
-     * @param object
-     *         the renderable to add
-     */
-    protected void loadRenderable(Renderable object) {
-        renderables.add(object);
-    }
-
-    /**
-     * Load all renderables
-     */
-    public abstract void loadRenderables();
 
     /**
      * Update this scene
@@ -83,7 +67,7 @@ public abstract class Level {
     void update() {
         programs.forEach((program) -> {
             program.run();
-            renderables.forEach(Renderable::render);
+
             program.stop();
         });
         uniforms.flip();
@@ -93,7 +77,7 @@ public abstract class Level {
      * Cleanup this scene
      */
     public void free() {
-        renderables.forEach(Renderable::free);
+
         programs.forEach(ShaderProgram::free);
         shaders.free();
     }
