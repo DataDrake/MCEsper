@@ -15,9 +15,10 @@
  *
  */
 
-package com.datadrake.graphics.shaders;
+package com.datadrake.mcesper.engine.graphics.shaders.programs;
 
-import com.datadrake.data.UniformStore;
+import com.datadrake.mcesper.engine.data.UniformStore;
+import com.datadrake.mcesper.engine.graphics.shaders.ShaderStore;
 import org.lwjgl.opengl.GL20;
 
 import java.util.HashSet;

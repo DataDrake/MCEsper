@@ -15,7 +15,7 @@
  *
  */
 
-package com.datadrake.data;
+package com.datadrake.mcesper.engine.data.uniform;
 
 import org.lwjgl.opengl.GL20;
 

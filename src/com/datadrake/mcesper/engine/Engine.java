@@ -15,13 +15,15 @@
  *
  */
 
-package com.datadrake;
+package com.datadrake.mcesper.engine;
 
-import com.datadrake.data.UniformStore;
-import com.datadrake.graphics.Cube;
-import com.datadrake.graphics.shaders.ShaderProgram;
-import com.datadrake.graphics.shaders.ShaderStore;
-import com.datadrake.graphics.shaders.WorldProgram;
+import com.datadrake.mcesper.engine.data.UniformStore;
+import com.datadrake.mcesper.engine.graphics.Cube;
+import com.datadrake.mcesper.engine.graphics.WindowManager;
+import com.datadrake.mcesper.engine.graphics.shaders.programs.ShaderProgram;
+import com.datadrake.mcesper.engine.graphics.shaders.ShaderStore;
+import com.datadrake.mcesper.engine.graphics.shaders.programs.WorldProgram;
+import com.datadrake.mcesper.engine.logic.Player;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;

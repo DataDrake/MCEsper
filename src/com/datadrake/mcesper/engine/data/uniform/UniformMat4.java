@@ -15,16 +15,20 @@
  *
  */
 
-package com.datadrake.data;
+package com.datadrake.mcesper.engine.data.uniform;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 
-/**
- * Scalar Float Uniform for OpenGL
- */
-public class UniformFloat extends Uniform {
+import java.nio.FloatBuffer;
 
-    private float value;
+/**
+ * Scalar Mat4 Uniform for OpenGL
+ */
+public class UniformMat4 extends Uniform {
+
+    private float[] value;
+    private FloatBuffer buff;
 
     /**
      * Constructor
@@ -34,8 +38,9 @@ public class UniformFloat extends Uniform {
      * @param initial
      *         the starting value
      */
-    public UniformFloat(String name, float initial) {
+    public UniformMat4(String name, float[] initial) {
         super(name);
+        buff = BufferUtils.createFloatBuffer(16);
         this.value = initial;
     }
 
@@ -45,7 +50,7 @@ public class UniformFloat extends Uniform {
      * @param value
      *         the new value
      */
-    public void update(float value) {
+    public void update(float[] value) {
         this.value = value;
         this.updated = true;
     }
@@ -58,7 +63,9 @@ public class UniformFloat extends Uniform {
         }
         Integer location = programLocations.get(PID);
         if (location != null) {
-            GL20.glUniform1f(location, value);
+            buff.put(value);
+            buff.flip();
+            GL20.glUniformMatrix4fv(location, false, buff);
         }
     }
 }

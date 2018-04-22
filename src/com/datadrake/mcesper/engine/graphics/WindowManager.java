@@ -15,7 +15,7 @@
  *
  */
 
-package com.datadrake;
+package com.datadrake.mcesper.engine.graphics;
 
 import org.lwjgl.glfw.GLFWVidMode;
 

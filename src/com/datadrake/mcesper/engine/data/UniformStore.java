@@ -15,7 +15,9 @@
  *
  */
 
-package com.datadrake.data;
+package com.datadrake.mcesper.engine.data;
+
+import com.datadrake.mcesper.engine.data.uniform.Uniform;
 
 import java.util.HashMap;
 import java.util.Map;

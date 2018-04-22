@@ -15,7 +15,7 @@
  *
  */
 
-package com.datadrake.data;
+package com.datadrake.mcesper.engine.data.vbo;
 
 import org.lwjgl.opengl.GL15;
 

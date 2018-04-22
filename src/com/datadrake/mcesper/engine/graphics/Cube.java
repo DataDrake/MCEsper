@@ -15,9 +15,10 @@
  *
  */
 
-package com.datadrake;
+package com.datadrake.mcesper.engine.graphics;
 
-import com.datadrake.data.FloatVBO;
+import com.datadrake.mcesper.engine.data.vbo.FloatVBO;
+import com.datadrake.mcesper.engine.data.vbo.UintVBO;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
@@ -26,30 +27,32 @@ import org.lwjgl.opengl.GL30;
 /**
  * The Player object
  */
-public class Player {
+public class Cube {
 
-    private final static float PLAYER_HEIGHT = 0.1f;
     private final static int VBO_POSITION = 0;
-    private final static int VBO_NORMAL = 1;
-    private final static int VBO_DIRECTION = 2;
+    //private final static int VBO_NORMAL = 1;
+    private final static int VBO_INDICES = 2;
 
     //VAO
     private int vaoID;
 
     // VBO
     private FloatVBO position;
-    private FloatVBO normal;
-    private FloatVBO direction;
+    //private FloatVBO normal;
+    private UintVBO indices;
 
     /**
      * Constructor
      */
-    public Player() {
+    public Cube() {
         vaoID = GL30.glGenVertexArrays();
         bind();
-        position = new FloatVBO(VBO_POSITION, 3, GL15.GL_ARRAY_BUFFER, new float[]{0, 0, 0});
-        normal = new FloatVBO(VBO_NORMAL, 3, GL15.GL_ARRAY_BUFFER, new float[]{0, 1, 0});
-        direction = new FloatVBO(VBO_DIRECTION, 3, GL15.GL_ARRAY_BUFFER, new float[]{0, 0, -1});
+        position = new FloatVBO(VBO_POSITION, 3, GL15.GL_ARRAY_BUFFER, new float[]{-0.5f, -0.5f, 0,
+                                                                                            0.5f, -0.5f, 0,
+                                                                                            -0.5f, 0.5f, 0,
+                                                                                            0.5f, 0.5f, 0});
+        // normal = new FloatVBO(VBO_NORMAL, 3, new float[]{0, 1, 0});
+        indices = new UintVBO(VBO_INDICES, 1, GL15.GL_ELEMENT_ARRAY_BUFFER, new int[]{0,1,2,2,1,3});
         unbind();
     }
 
@@ -67,18 +70,20 @@ public class Player {
      *
      * @return the (X,Y,Z) coords of the player's normal vector
      */
+/*
     public float[] getNormal() {
         return normal.getLast();
     }
+*/
 
     /**
      * Get the player's current view direction in the world
      *
      * @return the (X,Y,Z) coords of the player's view vector
      */
-    public float[] getDirection() {
+/*    public float[] getDirection() {
         return direction.getLast();
-    }
+    }*/
 
     public void bind() {
         GL30.glBindVertexArray(vaoID);
@@ -91,15 +96,19 @@ public class Player {
     public void free() {
         GL30.glDeleteVertexArrays(vaoID);
         position.free();
-        normal.free();
-        direction.free();
+        //normal.free();
+        indices.free();
     }
 
     public void render() {
         bind();
-        GL20.glEnableVertexAttribArray(0);
-        GL11.glDrawArrays(GL11.GL_POINT, 0, 1);
-        GL20.glDisableVertexAttribArray(0);
+        position.bind();
+        GL20.glEnableVertexAttribArray(VBO_POSITION);
+        indices.bind();
+        GL11.glDrawElements(GL11.GL_TRIANGLES, 6, GL11.GL_UNSIGNED_INT, 0);
+        indices.unbind();
+        GL20.glDisableVertexAttribArray(VBO_POSITION);
+        position.unbind();
         unbind();
     }
 

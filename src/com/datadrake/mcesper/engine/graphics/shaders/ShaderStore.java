@@ -15,9 +15,9 @@
  *
  */
 
-package com.datadrake.graphics.shaders;
+package com.datadrake.mcesper.engine.graphics.shaders;
 
-import com.datadrake.util.FileUtil;
+import com.datadrake.mcesper.util.FileUtil;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 

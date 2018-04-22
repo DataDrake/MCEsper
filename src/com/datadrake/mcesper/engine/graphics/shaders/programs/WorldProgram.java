@@ -15,9 +15,10 @@
  *
  */
 
-package com.datadrake.graphics.shaders;
+package com.datadrake.mcesper.engine.graphics.shaders.programs;
 
-import com.datadrake.data.UniformStore;
+import com.datadrake.mcesper.engine.data.UniformStore;
+import com.datadrake.mcesper.engine.graphics.shaders.ShaderStore;
 import org.lwjgl.opengl.GL20;
 
 /**
@@ -39,8 +40,8 @@ public class WorldProgram extends ShaderProgram {
 
     @Override
     public void loadShaders() {
-        loadShader("src/com/datadrake/graphics/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
-        loadShader("src/com/datadrake/graphics/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
+        loadShader("src/com/datadrake/mcesper/engine/graphics/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
+        loadShader("src/com/datadrake/mcesper/engine/graphics/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
     }
 
     @Override

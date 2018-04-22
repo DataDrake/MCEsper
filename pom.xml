@@ -218,7 +218,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>com.datadrake.MCEsper</mainClass>
+              <mainClass>com.datadrake.mcesper.MCEsper</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
