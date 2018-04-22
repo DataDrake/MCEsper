@@ -19,6 +19,8 @@ package com.datadrake;
 
 import com.datadrake.graphics.Cube;
 import com.datadrake.graphics.shaders.ShaderProgram;
+import com.datadrake.graphics.shaders.ShaderStore;
+import com.datadrake.graphics.shaders.WorldProgram;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -34,6 +36,7 @@ public class Engine {
     private WindowManager window;
     private Player player;
     private ShaderProgram program;
+    private ShaderStore store;
 
     /**
      * Constructor
@@ -60,9 +63,9 @@ public class Engine {
         System.out.println(GL11.glGetString(GL11.GL_VERSION));
         player = new Player();
 
-        program = new ShaderProgram("src/com/datadrake/graphics/shaders/vertex.glsl",
-                                                  "src/com/datadrake/graphics/shaders/fragment.glsl");
-        program.bind(0, "position");
+        store = new ShaderStore();
+        program = new WorldProgram(store);
+
     }
 
     /**
@@ -92,6 +95,7 @@ public class Engine {
         window.close();
         player.free();
         program.free();
+        store.free();
         // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();

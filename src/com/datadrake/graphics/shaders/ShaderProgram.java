@@ -17,58 +17,100 @@
 
 package com.datadrake.graphics.shaders;
 
-import com.datadrake.util.FileUtil;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
-/**
- * ShaderProgram manages a single sequence of shaders
- */
-public class ShaderProgram {
-    private int ID;
-    private int vertexID;
-    private int fragmentID;
+import java.util.HashSet;
+import java.util.Set;
 
-    public ShaderProgram(String vertexPath, String fragmentPath) {
-        vertexID = compileShader(vertexPath,GL20.GL_VERTEX_SHADER);
-        fragmentID = compileShader(fragmentPath,GL20.GL_FRAGMENT_SHADER);
+/**
+ * ShaderProgram manages a sequence of shaders as on OpenGL Shader Program
+ */
+public abstract class ShaderProgram {
+
+    // OpenGL ShaderProgram ID
+    private int ID;
+    // Dependent Shader IDs
+    private Set<Integer> shaderIDs;
+    // Shader Store
+    private ShaderStore store;
+
+    /**
+     * Constructor
+     *
+     * @param store
+     *         the common shader store
+     */
+    public ShaderProgram(ShaderStore store) {
+        shaderIDs = new HashSet<>();
+        this.store = store;
         ID = GL20.glCreateProgram();
-        GL20.glAttachShader(ID,vertexID);
-        GL20.glAttachShader(ID,fragmentID);
+        shaders();
         GL20.glLinkProgram(ID);
         GL20.glValidateProgram(ID);
+        attributes();
     }
 
-    public void bind(int index, String name) {
+    /**
+     * Bind a shader to this program
+     *
+     * @param path
+     *         the filepath to the shader
+     * @param type
+     *         the type of shader
+     */
+    public void bindShader(String path, int type) {
+        int sID = store.register(path, type);
+        shaderIDs.add(sID);
+        GL20.glAttachShader(ID, sID);
+    }
+
+    /**
+     * Bind all shaders in this method
+     */
+    public abstract void shaders();
+
+
+    /**
+     * Bind an attribute name to an index in the VAO
+     *
+     * @param index
+     *         VAO index
+     * @param name
+     *         shader variable name
+     */
+    public void bindAttribute(int index, String name) {
         GL20.glBindAttribLocation(ID, index, name);
     }
 
+    /**
+     * Bind all attributes in this method
+     */
+    public abstract void attributes();
+
+    /**
+     * Execute this program
+     */
     public void run() {
         GL20.glUseProgram(ID);
     }
 
+    /**
+     * Terminate this program
+     */
     public void stop() {
         GL20.glUseProgram(0);
     }
 
+    /**
+     * Clean up shaders and remove this program
+     */
     public void free() {
         stop();
-        GL20.glDetachShader(ID, vertexID);
-        GL20.glDetachShader(ID, fragmentID);
-        GL20.glDeleteShader(vertexID);
-        GL20.glDeleteShader(fragmentID);
+        shaderIDs.forEach((sID) -> {
+            GL20.glDetachShader(ID, sID);
+            store.unregister(sID);
+        });
         GL20.glDeleteProgram(ID);
     }
 
-    private static int compileShader(String path, int type) {
-        String src = FileUtil.readAsString(path);
-        int id = GL20.glCreateShader(type);
-        GL20.glShaderSource(id, src);
-        GL20.glCompileShader(id);
-        if (GL20.glGetShaderi(id, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE) {
-            System.err.printf("Failed to compile shader '%s'\n", path);
-            System.err.println(GL20.glGetShaderInfoLog(id, 500));
-        }
-        return id;
-    }
 }

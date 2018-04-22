@@ -15,33 +15,33 @@
  *
  */
 
-package com.datadrake.util;
+package com.datadrake.graphics.shaders;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import org.lwjgl.opengl.GL20;
 
 /**
- * FileUtil provides useful functions for file manipulation
+ * WorldProgram is the ShaderProgram used to render the world
  */
-public class FileUtil {
+public class WorldProgram extends ShaderProgram {
 
     /**
-     * Read a file in as a string
+     * Constructor
      *
-     * @param path
-     *         the location of the file
-     *
-     * @return contents as a string
+     * @param store
+     *         common ShaderStore
      */
-    public static String readAsString(String path) {
-        String result = "";
-        try {
-            result = new String(Files.readAllBytes(Paths.get(path)));
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getMessage());
-        }
-        return result;
+    public WorldProgram(ShaderStore store) {
+        super(store);
     }
 
+    @Override
+    public void shaders() {
+        bindShader("src/com/datadrake/graphics/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
+        bindShader("src/com/datadrake/graphics/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
+    }
+
+    @Override
+    public void attributes() {
+        bindAttribute(0, "position");
+    }
 }

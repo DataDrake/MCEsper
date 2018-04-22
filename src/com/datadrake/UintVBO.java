@@ -61,7 +61,8 @@ public class UintVBO {
     /**
      * Update the values in this VBO and sync them to the GPU
      *
-     * @param next the new values
+     * @param next
+     *         the new values
      */
     public void update(int[] next) {
         last = next;
@@ -69,8 +70,9 @@ public class UintVBO {
         buff.flip();
         GL15.glBindBuffer(vboType, ID);
         GL15.glBufferData(vboType, buff, GL15.GL_STATIC_DRAW);
-        if (vboType == GL15.GL_ARRAY_BUFFER)
+        if (vboType == GL15.GL_ARRAY_BUFFER) {
             GL20.glVertexAttribPointer(attrNumber, attrWidth, dataType, false, 0, 0);
+        }
         GL15.glBindBuffer(vboType, 0);
     }
 
@@ -90,10 +92,16 @@ public class UintVBO {
         GL15.glDeleteBuffers(ID);
     }
 
+    /**
+     * Bind this VBO
+     */
     public void bind() {
         GL15.glBindBuffer(vboType, ID);
     }
 
+    /**
+     * Unbind this VBO
+     */
     public void unbind() {
         GL15.glBindBuffer(vboType, 0);
     }

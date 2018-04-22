@@ -89,10 +89,16 @@ public class FloatVBO {
         GL15.glDeleteBuffers(ID);
     }
 
+    /**
+     * Bind this buffer
+     */
     public void bind() {
         GL15.glBindBuffer(vboType, ID);
     }
 
+    /**
+     * Unbind this buffer
+     */
     public void unbind() {
         GL15.glBindBuffer(vboType, 0);
     }
