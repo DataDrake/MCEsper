@@ -38,7 +38,7 @@ public class UniformMat4 extends Uniform {
      * @param initial
      *         the starting value
      */
-    public UniformMat4(String name, float []initial) {
+    public UniformMat4(String name, float[] initial) {
         super(name);
         buff = BufferUtils.createFloatBuffer(16);
         this.value = initial;
@@ -50,7 +50,7 @@ public class UniformMat4 extends Uniform {
      * @param value
      *         the new value
      */
-    public void update(float []value) {
+    public void update(float[] value) {
         this.value = value;
         this.updated = true;
     }

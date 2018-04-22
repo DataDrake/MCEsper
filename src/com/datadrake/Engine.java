@@ -17,6 +17,7 @@
 
 package com.datadrake;
 
+import com.datadrake.data.UniformStore;
 import com.datadrake.graphics.Cube;
 import com.datadrake.graphics.shaders.ShaderProgram;
 import com.datadrake.graphics.shaders.ShaderStore;
@@ -36,7 +37,8 @@ public class Engine {
     private WindowManager window;
     private Player player;
     private ShaderProgram program;
-    private ShaderStore store;
+    private ShaderStore shaders;
+    private UniformStore uniforms;
 
     /**
      * Constructor
@@ -51,7 +53,6 @@ public class Engine {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
 
-
         // Create the window
         window = new WindowManager("M.C.Esper");
         // Setup input
@@ -63,8 +64,9 @@ public class Engine {
         System.out.println(GL11.glGetString(GL11.GL_VERSION));
         player = new Player();
 
-        store = new ShaderStore();
-        program = new WorldProgram(store);
+        shaders = new ShaderStore();
+        uniforms = new UniformStore();
+        program = new WorldProgram(shaders, uniforms);
 
     }
 
@@ -83,6 +85,7 @@ public class Engine {
             program.run();
             test.render();
             program.stop();
+            uniforms.flip();
             window.swap();
             glfwPollEvents();
         }
@@ -95,7 +98,7 @@ public class Engine {
         window.close();
         player.free();
         program.free();
-        store.free();
+        shaders.free();
         // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();

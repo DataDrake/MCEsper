@@ -17,49 +17,58 @@
 
 package com.datadrake.graphics.shaders;
 
+import com.datadrake.data.UniformStore;
 import org.lwjgl.opengl.GL20;
 
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * ShaderProgram manages a sequence of shaders as on OpenGL Shader Program
+ * ShaderProgram manages a sequence of loadShaders as on OpenGL Shader Program
  */
 public abstract class ShaderProgram {
 
     // OpenGL ShaderProgram ID
     private int ID;
+
     // Dependent Shader IDs
     private Set<Integer> shaderIDs;
     // Shader Store
-    private ShaderStore store;
+    private ShaderStore shaders;
+
+    // Uniform Names
+    private Set<String> uniformNames;
+    // Uniform Store
+    private UniformStore uniforms;
 
     /**
      * Constructor
      *
-     * @param store
+     * @param shaders
      *         the common shader store
      */
-    ShaderProgram(ShaderStore store) {
+    ShaderProgram(ShaderStore shaders, UniformStore uniforms) {
         shaderIDs = new HashSet<>();
-        this.store = store;
+        uniformNames = new HashSet<>();
+        this.shaders = shaders;
+        this.uniforms = uniforms;
         ID = GL20.glCreateProgram();
-        shaders();
-        attributes();
+        loadShaders();
+        bindAttributes();
         GL20.glLinkProgram(ID);
         GL20.glValidateProgram(ID);
     }
 
     /**
-     * Bind a shader to this program
+     * Load a shader for this program
      *
      * @param path
      *         the filepath to the shader
      * @param type
      *         the type of shader
      */
-    void bindShader(String path, int type) {
-        int sID = store.register(path, type);
+    void loadShader(String path, int type) {
+        int sID = shaders.register(path, type);
         shaderIDs.add(sID);
         GL20.glAttachShader(ID, sID);
     }
@@ -67,7 +76,22 @@ public abstract class ShaderProgram {
     /**
      * Bind all shaders in this method
      */
-    public abstract void shaders();
+    public abstract void loadShaders();
+
+    /**
+     * Bind a uniform variable to this program
+     *
+     * @param name
+     *         the variable name of the uniform
+     */
+    void bindUniform(String name) {
+        uniformNames.add(name);
+    }
+
+    /**
+     * Bind all uniforms in this method
+     */
+    public abstract void bindUniforms();
 
 
     /**
@@ -85,13 +109,14 @@ public abstract class ShaderProgram {
     /**
      * Bind all attributes in this method
      */
-    public abstract void attributes();
+    public abstract void bindAttributes();
 
     /**
      * Execute this program
      */
     public void run() {
         GL20.glUseProgram(ID);
+        uniformNames.forEach((name) -> uniforms.load(ID, name));
     }
 
     /**
@@ -102,13 +127,13 @@ public abstract class ShaderProgram {
     }
 
     /**
-     * Clean up shaders and remove this program
+     * Clean up loadShaders and remove this program
      */
     public void free() {
         stop();
         shaderIDs.forEach((sID) -> {
             GL20.glDetachShader(ID, sID);
-            store.unregister(sID);
+            shaders.unregister(sID);
         });
         GL20.glDeleteProgram(ID);
     }

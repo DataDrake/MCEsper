@@ -17,6 +17,7 @@
 
 package com.datadrake.graphics.shaders;
 
+import com.datadrake.data.UniformStore;
 import org.lwjgl.opengl.GL20;
 
 /**
@@ -27,21 +28,28 @@ public class WorldProgram extends ShaderProgram {
     /**
      * Constructor
      *
-     * @param store
+     * @param shaders
      *         common ShaderStore
+     * @param uniforms
+     *         common UniformStore
      */
-    public WorldProgram(ShaderStore store) {
-        super(store);
+    public WorldProgram(ShaderStore shaders, UniformStore uniforms) {
+        super(shaders, uniforms);
     }
 
     @Override
-    public void shaders() {
-        bindShader("src/com/datadrake/graphics/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
-        bindShader("src/com/datadrake/graphics/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
+    public void loadShaders() {
+        loadShader("src/com/datadrake/graphics/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
+        loadShader("src/com/datadrake/graphics/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
     }
 
     @Override
-    public void attributes() {
+    public void bindUniforms() {
+
+    }
+
+    @Override
+    public void bindAttributes() {
         bindAttribute(0, "position");
     }
 }

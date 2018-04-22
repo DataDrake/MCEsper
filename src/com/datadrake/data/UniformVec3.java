@@ -34,7 +34,7 @@ public class UniformVec3 extends Uniform {
      * @param initial
      *         the starting value
      */
-    public UniformVec3(String name, float []initial) {
+    public UniformVec3(String name, float[] initial) {
         super(name);
         this.value = initial;
     }
@@ -45,7 +45,7 @@ public class UniformVec3 extends Uniform {
      * @param value
      *         the new value
      */
-    public void update(float []value) {
+    public void update(float[] value) {
         this.value = value;
         this.updated = true;
     }

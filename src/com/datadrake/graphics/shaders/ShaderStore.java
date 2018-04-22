@@ -25,18 +25,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ShaderStore manages shaders for multiple ShaderPrograms
+ * ShaderStore manages loadShaders for multiple ShaderPrograms
  */
 public class ShaderStore {
 
+    // Map filepaths to shader IDs
     private Map<String, Integer> paths;
+    // Keep track of references to shaders
     private Map<Integer, Integer> refs;
 
+    /**
+     * Constructor
+     */
     public ShaderStore() {
         paths = new HashMap<>();
         refs = new HashMap<>();
     }
 
+    /**
+     * Create a new shader if missing
+     *
+     * @param path
+     *         the filepath to the shader
+     * @param type
+     *         the kind of shader
+     *
+     * @return the ID of this new shader
+     */
     public int register(String path, int type) {
         Integer id = paths.get(path);
         // Compile if missing
@@ -49,6 +64,12 @@ public class ShaderStore {
         return id;
     }
 
+    /**
+     * Decrement references to a shader by ID, removing if no longer referenced
+     *
+     * @param id
+     *         the ID of the shader
+     */
     public void unregister(int id) {
         // Update ref count
         refs.merge(id, 1, (curr, next) -> {
@@ -61,14 +82,28 @@ public class ShaderStore {
         });
     }
 
+    /**
+     * Clean up shaders before shutting down
+     */
     public void free() {
         paths.forEach((k, v) -> {
-            if ( refs.get(v) > 0 ) {
+            if (refs.get(v) > 0) {
                 System.err.printf("There are still %d refs to %s\n", refs.get(v), k);
+                GL20.glDeleteShader(refs.get(k));
             }
         });
     }
 
+    /**
+     * Compile a new shader from a file
+     *
+     * @param path
+     *         the filepath of the shader source
+     * @param type
+     *         the kind of shader
+     *
+     * @return the ID of the new shader
+     */
     private static int compileShader(String path, int type) {
         String src = FileUtil.readAsString(path);
         int id = GL20.glCreateShader(type);

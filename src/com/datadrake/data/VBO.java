@@ -23,6 +23,7 @@ import org.lwjgl.opengl.GL15;
  * VBO is a representation of a OpenGL VBO
  */
 public abstract class VBO {
+
     int ID;
     int attrNumber;
     int attrWidth;
