@@ -45,9 +45,9 @@ public abstract class ShaderProgram {
         this.store = store;
         ID = GL20.glCreateProgram();
         shaders();
+        attributes();
         GL20.glLinkProgram(ID);
         GL20.glValidateProgram(ID);
-        attributes();
     }
 
     /**
