@@ -77,7 +77,7 @@ public class Engine {
 
         glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
         while (window.isValid()) {
-            //glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+            glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT);
             //player.render();
             program.run();

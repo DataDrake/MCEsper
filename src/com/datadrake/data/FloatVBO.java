@@ -15,10 +15,11 @@
  *
  */
 
-package com.datadrake;
+package com.datadrake.data;
 
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 
@@ -27,13 +28,8 @@ import java.nio.FloatBuffer;
 /**
  * FloatVBO is just a slightly easier way of managing a VBO for Float data
  */
-public class FloatVBO {
+public class FloatVBO extends VBO {
 
-    private int ID;
-    private int attrNumber;
-    private int attrWidth;
-    private int vboType;
-    private int dataType;
     private float[] last;
     private FloatBuffer buff;
 
@@ -44,15 +40,13 @@ public class FloatVBO {
      *         the index in the VAO for this VBO
      * @param attrWidth
      *         the number of floats per entry
+     * @param vboType
+     *         the kind of data in this VBO
      * @param initial
      *         the starting value
      */
-    public FloatVBO(int attrNumber, int attrWidth, int vboType, int dataType, float[] initial) {
-        ID = GL15.glGenBuffers();
-        this.attrNumber = attrNumber;
-        this.attrWidth = attrWidth;
-        this.vboType = vboType;
-        this.dataType = dataType;
+    public FloatVBO(int attrNumber, int attrWidth, int vboType, float[] initial) {
+        super(attrNumber, attrWidth, vboType);
         buff = BufferUtils.createFloatBuffer(initial.length);
         update(initial);
     }
@@ -60,7 +54,8 @@ public class FloatVBO {
     /**
      * Update the values in this VBO and sync them to the GPU
      *
-     * @param next the new values
+     * @param next
+     *         the new values
      */
     public void update(float[] next) {
         last = next;
@@ -68,8 +63,9 @@ public class FloatVBO {
         buff.flip();
         GL15.glBindBuffer(vboType, ID);
         GL15.glBufferData(vboType, buff, GL15.GL_STATIC_DRAW);
-        if (vboType == GL15.GL_ARRAY_BUFFER)
-            GL20.glVertexAttribPointer(attrNumber, attrWidth, dataType, false, 0, 0);
+        if (vboType == GL15.GL_ARRAY_BUFFER) {
+            GL20.glVertexAttribPointer(attrNumber, attrWidth, GL11.GL_FLOAT, false, 0, 0);
+        }
         GL15.glBindBuffer(vboType, 0);
     }
 
@@ -80,26 +76,5 @@ public class FloatVBO {
      */
     public float[] getLast() {
         return last;
-    }
-
-    /**
-     * Deallocate this VBO on the GPU
-     */
-    public void free() {
-        GL15.glDeleteBuffers(ID);
-    }
-
-    /**
-     * Bind this buffer
-     */
-    public void bind() {
-        GL15.glBindBuffer(vboType, ID);
-    }
-
-    /**
-     * Unbind this buffer
-     */
-    public void unbind() {
-        GL15.glBindBuffer(vboType, 0);
     }
 }

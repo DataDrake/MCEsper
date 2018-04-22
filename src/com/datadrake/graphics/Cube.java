@@ -17,8 +17,8 @@
 
 package com.datadrake.graphics;
 
-import com.datadrake.FloatVBO;
-import com.datadrake.UintVBO;
+import com.datadrake.data.FloatVBO;
+import com.datadrake.data.UintVBO;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
@@ -47,12 +47,12 @@ public class Cube {
     public Cube() {
         vaoID = GL30.glGenVertexArrays();
         bind();
-        position = new FloatVBO(VBO_POSITION, 3, GL15.GL_ARRAY_BUFFER, GL11.GL_FLOAT, new float[]{-0.5f, -0.5f, 0,
+        position = new FloatVBO(VBO_POSITION, 3, GL15.GL_ARRAY_BUFFER, new float[]{-0.5f, -0.5f, 0,
                                                                                             0.5f, -0.5f, 0,
                                                                                             -0.5f, 0.5f, 0,
                                                                                             0.5f, 0.5f, 0});
         // normal = new FloatVBO(VBO_NORMAL, 3, new float[]{0, 1, 0});
-        indices = new UintVBO(VBO_INDICES, 1, GL15.GL_ELEMENT_ARRAY_BUFFER, GL11.GL_UNSIGNED_INT, new int[]{0,1,2,2,1,3});
+        indices = new UintVBO(VBO_INDICES, 1, GL15.GL_ELEMENT_ARRAY_BUFFER, new int[]{0,1,2,2,1,3});
         unbind();
     }
 

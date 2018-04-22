@@ -40,7 +40,7 @@ public abstract class ShaderProgram {
      * @param store
      *         the common shader store
      */
-    public ShaderProgram(ShaderStore store) {
+    ShaderProgram(ShaderStore store) {
         shaderIDs = new HashSet<>();
         this.store = store;
         ID = GL20.glCreateProgram();
@@ -58,7 +58,7 @@ public abstract class ShaderProgram {
      * @param type
      *         the type of shader
      */
-    public void bindShader(String path, int type) {
+    void bindShader(String path, int type) {
         int sID = store.register(path, type);
         shaderIDs.add(sID);
         GL20.glAttachShader(ID, sID);
@@ -78,7 +78,7 @@ public abstract class ShaderProgram {
      * @param name
      *         shader variable name
      */
-    public void bindAttribute(int index, String name) {
+    void bindAttribute(int index, String name) {
         GL20.glBindAttribLocation(ID, index, name);
     }
 

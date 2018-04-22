@@ -15,26 +15,21 @@
  *
  */
 
-package com.datadrake;
+package com.datadrake.data;
 
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 /**
- * FloatVBO is just a slightly easier way of managing a VBO for Float data
+ * UintVBO is just a slightly easier way of managing a VBO for UINT Data
  */
-public class UintVBO {
+public class UintVBO extends VBO {
 
-    private int ID;
-    private int attrNumber;
-    private int attrWidth;
-    private int vboType;
-    private int dataType;
     private int[] last;
     private IntBuffer buff;
 
@@ -45,15 +40,13 @@ public class UintVBO {
      *         the index in the VAO for this VBO
      * @param attrWidth
      *         the number of floats per entry
+     * @param vboType
+     *         the kind of data in this VBO
      * @param initial
      *         the starting value
      */
-    public UintVBO(int attrNumber, int attrWidth, int vboType, int dataType, int[] initial) {
-        ID = GL15.glGenBuffers();
-        this.attrNumber = attrNumber;
-        this.attrWidth = attrWidth;
-        this.vboType = vboType;
-        this.dataType = dataType;
+    public UintVBO(int attrNumber, int attrWidth, int vboType, int[] initial) {
+        super(attrNumber, attrWidth, vboType);
         buff = BufferUtils.createIntBuffer(initial.length);
         update(initial);
     }
@@ -71,7 +64,7 @@ public class UintVBO {
         GL15.glBindBuffer(vboType, ID);
         GL15.glBufferData(vboType, buff, GL15.GL_STATIC_DRAW);
         if (vboType == GL15.GL_ARRAY_BUFFER) {
-            GL20.glVertexAttribPointer(attrNumber, attrWidth, dataType, false, 0, 0);
+            GL20.glVertexAttribPointer(attrNumber, attrWidth, GL11.GL_UNSIGNED_INT, false, 0, 0);
         }
         GL15.glBindBuffer(vboType, 0);
     }
@@ -83,26 +76,5 @@ public class UintVBO {
      */
     public int[] getLast() {
         return last;
-    }
-
-    /**
-     * Deallocate this VBO on the GPU
-     */
-    public void free() {
-        GL15.glDeleteBuffers(ID);
-    }
-
-    /**
-     * Bind this VBO
-     */
-    public void bind() {
-        GL15.glBindBuffer(vboType, ID);
-    }
-
-    /**
-     * Unbind this VBO
-     */
-    public void unbind() {
-        GL15.glBindBuffer(vboType, 0);
     }
 }

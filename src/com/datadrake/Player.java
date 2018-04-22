@@ -17,6 +17,7 @@
 
 package com.datadrake;
 
+import com.datadrake.data.FloatVBO;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
@@ -46,9 +47,9 @@ public class Player {
     public Player() {
         vaoID = GL30.glGenVertexArrays();
         bind();
-        position = new FloatVBO(VBO_POSITION, 3, GL15.GL_ARRAY_BUFFER, GL11.GL_FLOAT, new float[]{0, 0, 0});
-        normal = new FloatVBO(VBO_NORMAL, 3, GL15.GL_ARRAY_BUFFER, GL11.GL_FLOAT, new float[]{0, 1, 0});
-        direction = new FloatVBO(VBO_DIRECTION, 3, GL15.GL_ARRAY_BUFFER, GL11.GL_FLOAT, new float[]{0, 0, -1});
+        position = new FloatVBO(VBO_POSITION, 3, GL15.GL_ARRAY_BUFFER, new float[]{0, 0, 0});
+        normal = new FloatVBO(VBO_NORMAL, 3, GL15.GL_ARRAY_BUFFER, new float[]{0, 1, 0});
+        direction = new FloatVBO(VBO_DIRECTION, 3, GL15.GL_ARRAY_BUFFER, new float[]{0, 0, -1});
         unbind();
     }
 
