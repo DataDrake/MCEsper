@@ -15,10 +15,11 @@
  *
  */
 
-package com.datadrake.mcesper.engine.graphics;
+package com.datadrake.mcesper.game;
 
 import com.datadrake.mcesper.engine.data.vbo.FloatVBO;
 import com.datadrake.mcesper.engine.data.vbo.UintVBO;
+import com.datadrake.mcesper.engine.graphics.Renderable;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
@@ -27,7 +28,7 @@ import org.lwjgl.opengl.GL30;
 /**
  * The Player object
  */
-public class Cube {
+public class Cube implements Renderable {
 
     private final static int VBO_POSITION = 0;
     //private final static int VBO_NORMAL = 1;

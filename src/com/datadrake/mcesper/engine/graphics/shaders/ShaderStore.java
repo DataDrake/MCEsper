@@ -89,7 +89,7 @@ public class ShaderStore {
         paths.forEach((k, v) -> {
             if (refs.get(v) > 0) {
                 System.err.printf("There are still %d refs to %s\n", refs.get(v), k);
-                GL20.glDeleteShader(refs.get(k));
+                GL20.glDeleteShader(paths.get(k));
             }
         });
     }

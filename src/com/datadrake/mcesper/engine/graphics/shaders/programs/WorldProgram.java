@@ -40,8 +40,8 @@ public class WorldProgram extends ShaderProgram {
 
     @Override
     public void loadShaders() {
-        loadShader("src/com/datadrake/mcesper/engine/graphics/shaders/vertex.glsl", GL20.GL_VERTEX_SHADER);
-        loadShader("src/com/datadrake/mcesper/engine/graphics/shaders/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
+        loadShader("src/com/datadrake/mcesper/engine/graphics/shaders/glsl/vertex.glsl", GL20.GL_VERTEX_SHADER);
+        loadShader("src/com/datadrake/mcesper/engine/graphics/shaders/glsl/fragment.glsl", GL20.GL_FRAGMENT_SHADER);
     }
 
     @Override

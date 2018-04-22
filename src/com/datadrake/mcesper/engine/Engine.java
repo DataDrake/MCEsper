@@ -17,13 +17,9 @@
 
 package com.datadrake.mcesper.engine;
 
-import com.datadrake.mcesper.engine.data.UniformStore;
-import com.datadrake.mcesper.engine.graphics.Cube;
 import com.datadrake.mcesper.engine.graphics.WindowManager;
-import com.datadrake.mcesper.engine.graphics.shaders.programs.ShaderProgram;
-import com.datadrake.mcesper.engine.graphics.shaders.ShaderStore;
-import com.datadrake.mcesper.engine.graphics.shaders.programs.WorldProgram;
 import com.datadrake.mcesper.engine.logic.Player;
+import com.datadrake.mcesper.game.Level1;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -38,9 +34,7 @@ public class Engine {
 
     private WindowManager window;
     private Player player;
-    private ShaderProgram program;
-    private ShaderStore shaders;
-    private UniformStore uniforms;
+    private Level level;
 
     /**
      * Constructor
@@ -66,10 +60,7 @@ public class Engine {
         System.out.println(GL11.glGetString(GL11.GL_VERSION));
         player = new Player();
 
-        shaders = new ShaderStore();
-        uniforms = new UniformStore();
-        program = new WorldProgram(shaders, uniforms);
-
+        level = new Level1();
     }
 
     /**
@@ -77,17 +68,11 @@ public class Engine {
      */
     public void run() {
 
-        Cube test = new Cube();
-
         glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
         while (window.isValid()) {
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT);
-            //player.render();
-            program.run();
-            test.render();
-            program.stop();
-            uniforms.flip();
+            level.update();
             window.swap();
             glfwPollEvents();
         }
@@ -99,8 +84,7 @@ public class Engine {
     public void close() {
         window.close();
         player.free();
-        program.free();
-        shaders.free();
+        level.free();
         // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
