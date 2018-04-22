@@ -29,6 +29,8 @@ import java.util.Set;
  */
 public abstract class ShaderProgram {
 
+    final static String SHADER_PREFIX = "src/com/datadrake/mcesper/engine/graphics/shaders/glsl";
+
     // OpenGL ShaderProgram ID
     private int ID;
 
