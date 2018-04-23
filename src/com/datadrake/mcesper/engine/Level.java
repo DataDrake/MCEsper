@@ -67,7 +67,6 @@ public abstract class Level {
     void update() {
         programs.forEach((program) -> {
             program.run();
-
             program.stop();
         });
         uniforms.flip();
@@ -77,7 +76,6 @@ public abstract class Level {
      * Cleanup this scene
      */
     public void free() {
-
         programs.forEach(ShaderProgram::free);
         shaders.free();
     }

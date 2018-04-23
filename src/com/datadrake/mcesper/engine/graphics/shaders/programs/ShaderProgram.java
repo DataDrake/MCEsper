@@ -18,6 +18,7 @@
 package com.datadrake.mcesper.engine.graphics.shaders.programs;
 
 import com.datadrake.mcesper.engine.data.UniformStore;
+import com.datadrake.mcesper.engine.data.uniform.Uniform;
 import com.datadrake.mcesper.engine.graphics.Renderable;
 import com.datadrake.mcesper.engine.graphics.shaders.ShaderStore;
 import org.lwjgl.opengl.GL20;
@@ -65,6 +66,7 @@ public abstract class ShaderProgram {
         ID = GL20.glCreateProgram();
         loadShaders();
         bindAttributes();
+        bindUniforms();
         loadRenderables();
         GL20.glLinkProgram(ID);
         GL20.glValidateProgram(ID);
@@ -95,8 +97,10 @@ public abstract class ShaderProgram {
      * @param name
      *         the variable name of the uniform
      */
-    void bindUniform(String name) {
+    void bindUniform(String name, Uniform value) {
         uniformNames.add(name);
+        value.attachProgram(ID);
+        uniforms.put(name, value);
     }
 
     /**

@@ -19,6 +19,8 @@ package com.datadrake.mcesper.engine.graphics;
 
 import org.lwjgl.glfw.GLFWVidMode;
 
+import java.awt.*;
+
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.glfw.GLFW.glfwShowWindow;
@@ -30,8 +32,11 @@ import static org.lwjgl.system.MemoryUtil.NULL;
  */
 public class WindowManager {
 
-    // The window ID
+    // singleton
+    private static WindowManager manager;
+    // the window ID
     private long ID;
+    //window dimensions
     private int width, height;
 
     /**
@@ -40,7 +45,7 @@ public class WindowManager {
      * @param title
      *         the title for the window
      */
-    public WindowManager(String title) {
+    private WindowManager(String title) {
         long monitor = glfwGetPrimaryMonitor();
         // Get the resolution of the primary monitor
         GLFWVidMode vidmode = glfwGetVideoMode(monitor);
@@ -61,46 +66,58 @@ public class WindowManager {
     }
 
     /**
+     * Singleton Constructor
+     *
+     * @param title
+     *         the name of the window
+     */
+    public static void create(String title) {
+        if (manager == null) {
+            manager = new WindowManager(title);
+        }
+    }
+
+    /**
      * Display the window for all to see
      *
      * @param vsync
      *         Enable vertical sync
      */
-    public void open(boolean vsync) {
+    public static void open(boolean vsync) {
         // Make the OpenGL context current
-        glfwMakeContextCurrent(ID);
+        glfwMakeContextCurrent(manager.ID);
         // Enable v-sync
         if (vsync) {
             glfwSwapInterval(1);
         }
         // Make the window visible
-        glfwShowWindow(ID);
+        glfwShowWindow(manager.ID);
 
     }
 
     /**
      * Close this window entirely
      */
-    public void close() {
+    public static void close() {
         // Free the window callbacks and destroy the window
-        glfwFreeCallbacks(ID);
-        glfwDestroyWindow(ID);
+        glfwFreeCallbacks(manager.ID);
+        glfwDestroyWindow(manager.ID);
     }
 
     /**
      * Display the next frame
      */
-    public void swap() {
-        glfwSwapBuffers(ID);
+    public static void swap() {
+        glfwSwapBuffers(manager.ID);
     }
 
     /**
      * Register an input handler for dealing with User input
      */
-    public void registerInputHandler() {
+    public static void registerInputHandler() {
         // TODO: Make this use an actual class
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(ID, (window, key, scancode, action, mods) -> {
+        glfwSetKeyCallback(manager.ID, (window, key, scancode, action, mods) -> {
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
             }
@@ -110,7 +127,26 @@ public class WindowManager {
     /**
      * Check if this window should still be displayed
      */
-    public boolean isValid() {
-        return !glfwWindowShouldClose(ID);
+    public static boolean isValid() {
+        return !glfwWindowShouldClose(manager.ID);
     }
+
+    /**
+     * Accessor
+     *
+     * @return the window width
+     */
+    public static int getWidth() {
+        return manager.width;
+    }
+
+    /**
+     * Accessor
+     *
+     * @return the window height
+     */
+    public static int getHeight() {
+        return manager.height;
+    }
+
 }

@@ -61,8 +61,8 @@ public class UniformMat4 extends Uniform {
         if (!updated) {
             return;
         }
-        Integer location = programLocations.get(PID);
-        if (location != null) {
+        Integer location = GL20.glGetUniformLocation(PID, name);
+        if (location > -1) {
             buff.put(value);
             buff.flip();
             GL20.glUniformMatrix4fv(location, false, buff);

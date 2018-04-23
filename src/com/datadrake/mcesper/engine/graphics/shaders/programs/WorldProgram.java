@@ -18,13 +18,20 @@
 package com.datadrake.mcesper.engine.graphics.shaders.programs;
 
 import com.datadrake.mcesper.engine.data.UniformStore;
+import com.datadrake.mcesper.engine.data.uniform.UniformMat4;
+import com.datadrake.mcesper.engine.graphics.WindowManager;
 import com.datadrake.mcesper.engine.graphics.shaders.ShaderStore;
+import com.datadrake.mcesper.util.MatrixUtil;
 import org.lwjgl.opengl.GL20;
 
 /**
  * WorldProgram is the ShaderProgram used to render the world
  */
 public class WorldProgram extends ShaderProgram {
+
+    private static final float FIELD_OF_VIEW = 70;
+    private static final float NEAR_PLANE = 0.1f;
+    private static final float FAR_PLANE = 1000f;
 
     /**
      * Constructor
@@ -46,7 +53,11 @@ public class WorldProgram extends ShaderProgram {
 
     @Override
     public void bindUniforms() {
+        UniformMat4 transform = new UniformMat4("transform", MatrixUtil.transform(new float[]{0, 0, -2}, new float[]{0, 0, 0}, 1f));
+        bindUniform("transform", transform);
 
+        UniformMat4 projection = new UniformMat4("projection", MatrixUtil.project(FIELD_OF_VIEW, NEAR_PLANE, FAR_PLANE, WindowManager.getWidth(), WindowManager.getHeight()));
+        bindUniform("projection", projection);
     }
 
     @Override

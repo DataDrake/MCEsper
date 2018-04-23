@@ -70,7 +70,7 @@ public class UniformStore {
      *         the name of the uniform
      */
     public void load(int PID, String name) {
-        Uniform current = uniforms.get(name);
+        Uniform current = get(name);
         if (current != null) {
             current.load(PID);
         }

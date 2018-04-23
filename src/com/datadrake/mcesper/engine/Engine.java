@@ -32,7 +32,6 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class Engine {
 
-    private WindowManager window;
     private Player player;
     private Level level;
 
@@ -50,11 +49,11 @@ public class Engine {
         }
 
         // Create the window
-        window = new WindowManager("M.C.Esper");
+        WindowManager.create("M.C.Esper");
         // Setup input
-        window.registerInputHandler();
+        WindowManager.registerInputHandler();
         // Show the window
-        window.open(true);
+        WindowManager.open(true);
         GL.createCapabilities();
 
         System.out.println(GL11.glGetString(GL11.GL_VERSION));
@@ -69,11 +68,11 @@ public class Engine {
     public void run() {
 
         glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
-        while (window.isValid()) {
+        while (WindowManager.isValid()) {
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             level.update();
-            window.swap();
+            WindowManager.swap();
             glfwPollEvents();
         }
     }
@@ -82,7 +81,7 @@ public class Engine {
      * Cleanup before exit
      */
     public void close() {
-        window.close();
+        WindowManager.close();
         player.free();
         level.free();
         // Terminate GLFW and free the error callback

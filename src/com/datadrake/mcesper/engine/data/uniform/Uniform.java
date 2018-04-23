@@ -28,7 +28,7 @@ import java.util.Map;
 public abstract class Uniform {
 
     // Name of the uniform, must be the same for all loadShaders
-    private String name;
+    String name;
     // True if it has been modified since last load
     boolean updated;
     // Mapping of PID to Location
