@@ -22,9 +22,14 @@ import static org.lwjgl.glfw.GLFW.*;
 public class Input {
 
     private static Player player;
+    private static double xpos_old = 0, ypos_old = 0;
 
     public static void setPlayer(Player user) {
         player = user;
+    }
+
+    public static void cursorhandler(long window, double xpos, double ypos) {
+        float rX, ry;
     }
 
     public static void keyhandler(long window, int key, int scancode, int action, int mods) {

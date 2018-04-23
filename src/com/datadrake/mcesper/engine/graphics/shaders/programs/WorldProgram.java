@@ -18,8 +18,12 @@
 package com.datadrake.mcesper.engine.graphics.shaders.programs;
 
 import com.datadrake.mcesper.engine.data.UniformStore;
+import com.datadrake.mcesper.engine.data.uniform.UniformMat4;
+import com.datadrake.mcesper.engine.data.uniform.UniformVec3Array;
 import com.datadrake.mcesper.engine.graphics.shaders.ShaderStore;
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL32;
 
 /**
  * WorldProgram is the ShaderProgram used to render the world
@@ -42,6 +46,7 @@ public class WorldProgram extends ShaderProgram {
     @Override
     public void loadShaders() {
         loadShader(SHADER_PREFIX + "/map_vertex.glsl", GL20.GL_VERTEX_SHADER);
+        loadShader(SHADER_PREFIX + "/map_geometry.glsl", GL32.GL_GEOMETRY_SHADER);
         loadShader(SHADER_PREFIX + "/map_fragment.glsl", GL20.GL_FRAGMENT_SHADER);
     }
 
@@ -50,6 +55,19 @@ public class WorldProgram extends ShaderProgram {
         bindUniform("transform");
         bindUniform("view");
         bindUniform("projection");
+
+        UniformVec3Array vertices = new UniformVec3Array("vertices", new float[] {
+             1f, 1f,-1f,
+            -1f, 1f,-1f,
+             1f, 1f, 1f,
+            -1f, 1f, 1f,
+            -1f,-1f, 1f,
+            -1f,-1f,-1f,
+             1f,-1f,-1f,
+             1f,-1f, 1f
+        });
+        this.uniforms.put("vertices", vertices);
+        bindUniform("vertices");
     }
 
     @Override

@@ -65,6 +65,7 @@ public class Engine {
 
         glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
         while (WindowManager.isValid()) {
+            glEnable(GL11.GL_DEPTH_TEST);
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             level.update();

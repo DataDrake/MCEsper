@@ -45,7 +45,7 @@ public abstract class ShaderProgram {
     // Uniform Names
     private Set<String> uniformNames;
     // Uniform Store
-    private UniformStore uniforms;
+    UniformStore uniforms;
 
     //List of Renderables managed by this ShaderProgram
     private List<Renderable> renderables;

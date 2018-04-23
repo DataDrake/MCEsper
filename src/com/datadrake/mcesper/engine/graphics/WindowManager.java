@@ -116,6 +116,7 @@ public class WindowManager {
     public static void registerInputHandler() {
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(manager.ID, Input::keyhandler);
+        glfwSetCursorPosCallback(manager.ID, Input::cursorhandler);
     }
 
     /**

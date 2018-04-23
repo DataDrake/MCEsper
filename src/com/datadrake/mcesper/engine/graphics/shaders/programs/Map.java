@@ -105,9 +105,9 @@ public class Map implements Renderable {
         bind();
         position.bind();
         GL20.glEnableVertexAttribArray(VBO_POSITION);
-        indices.bind();
-        GL11.glDrawElements(GL11.GL_TRIANGLES, 6, GL11.GL_UNSIGNED_INT, 0);
-        indices.unbind();
+        //indices.bind();
+        GL11.glDrawArrays(GL11.GL_POINTS, 0, 1);
+        //indices.unbind();
         GL20.glDisableVertexAttribArray(VBO_POSITION);
         position.unbind();
         unbind();
