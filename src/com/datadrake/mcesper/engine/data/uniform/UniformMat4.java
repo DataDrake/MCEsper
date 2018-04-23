@@ -17,6 +17,7 @@
 
 package com.datadrake.mcesper.engine.data.uniform;
 
+import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 
@@ -27,7 +28,7 @@ import java.nio.FloatBuffer;
  */
 public class UniformMat4 extends Uniform {
 
-    private float[] value;
+    private Matrix4f value;
     private FloatBuffer buff;
 
     /**
@@ -38,7 +39,7 @@ public class UniformMat4 extends Uniform {
      * @param initial
      *         the starting value
      */
-    public UniformMat4(String name, float[] initial) {
+    public UniformMat4(String name, Matrix4f initial) {
         super(name);
         buff = BufferUtils.createFloatBuffer(16);
         this.value = initial;
@@ -50,7 +51,7 @@ public class UniformMat4 extends Uniform {
      * @param value
      *         the new value
      */
-    public void update(float[] value) {
+    public void update(Matrix4f value) {
         this.value = value;
         this.updated = true;
     }
@@ -63,9 +64,9 @@ public class UniformMat4 extends Uniform {
         }
         Integer location = GL20.glGetUniformLocation(PID, name);
         if (location > -1) {
-            buff.put(value);
-            buff.flip();
+            value.get(buff);
             GL20.glUniformMatrix4fv(location, false, buff);
+            buff.flip();
         }
     }
 }

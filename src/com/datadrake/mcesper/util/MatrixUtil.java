@@ -36,8 +36,7 @@ public class MatrixUtil {
      *
      * @return the matrix
      */
-    public static float[] transform(float[] translate, float[] rotate, float scale) {
-        float[] tform = new float[16];
+    public static Matrix4f transform(float[] translate, float[] rotate, float scale) {
         Matrix4f raw = new Matrix4f();
         raw.identity();
         raw.translate(translate[0], translate[1], translate[2], raw);
@@ -45,8 +44,7 @@ public class MatrixUtil {
         raw.rotate((float)Math.toRadians(rotate[1]), 0, 1, 0, raw);
         raw.rotate((float)Math.toRadians(rotate[2]), 0, 0, 1, raw);
         raw.scale(scale, raw);
-        raw.get(tform);
-        return tform;
+        return raw;
     }
 
     /**
@@ -65,7 +63,7 @@ public class MatrixUtil {
      *
      * @return the matrix
      */
-    public static float[] project(float fov, float near, float far, int width, int height) {
+    public static Matrix4f project(float fov, float near, float far, int width, int height) {
         float aspect = (float)width / (float)height;
         float sy = (1f / (float)Math.tan(Math.toRadians(fov / 2f))) * aspect;
         float sx = sy / aspect;
@@ -77,17 +75,13 @@ public class MatrixUtil {
         raw._m22(sz);
         raw._m23(-1);
         raw._m32(wz);
-        float[] proj = new float[16];
-        raw.get(proj);
-        return proj;
+        return raw;
     }
 
-    public static float[] view(float[] position, float[]normal, float[] direction) {
+    public static Matrix4f view(float[] position, float[]normal, float[] direction) {
         Matrix4f raw = new Matrix4f();
         raw.identity();
-        float[] view = new float[16];
-        raw.get(view);
-        return view;
+        return raw;
     }
 
 }

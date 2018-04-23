@@ -21,6 +21,7 @@ import com.datadrake.mcesper.engine.data.UniformStore;
 import com.datadrake.mcesper.engine.data.uniform.UniformMat4;
 import com.datadrake.mcesper.engine.graphics.WindowManager;
 import com.datadrake.mcesper.util.MatrixUtil;
+import org.joml.Matrix4f;
 
 public class World {
 
@@ -31,7 +32,7 @@ public class World {
     private UniformMat4 projection;
 
     public World(UniformStore uniforms) {
-        float[] pMat = MatrixUtil.project(FIELD_OF_VIEW, NEAR_PLANE, FAR_PLANE, WindowManager.getWidth(), WindowManager.getHeight());
+        Matrix4f pMat = MatrixUtil.project(FIELD_OF_VIEW, NEAR_PLANE, FAR_PLANE, WindowManager.getWidth(), WindowManager.getHeight());
         projection = new UniformMat4("projection", pMat);
         uniforms.put("projection", projection);
     }
