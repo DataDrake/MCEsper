@@ -20,6 +20,8 @@ package com.datadrake.mcesper.engine;
 import com.datadrake.mcesper.engine.data.UniformStore;
 import com.datadrake.mcesper.engine.graphics.shaders.ShaderStore;
 import com.datadrake.mcesper.engine.graphics.shaders.programs.ShaderProgram;
+import com.datadrake.mcesper.engine.logic.Player;
+import com.datadrake.mcesper.engine.logic.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,9 @@ public abstract class Level {
     private ShaderStore shaders;
     private List<ShaderProgram> programs;
 
+    private World world;
+    private Player player;
+
 
     /**
      * Constructor
@@ -41,6 +46,9 @@ public abstract class Level {
         uniforms = new UniformStore();
         shaders = new ShaderStore();
         programs = new ArrayList<>();
+
+        world = new World(uniforms);
+        player = new Player(uniforms);
 
         loadPrograms();
     }

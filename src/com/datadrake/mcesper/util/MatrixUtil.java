@@ -82,4 +82,12 @@ public class MatrixUtil {
         return proj;
     }
 
+    public static float[] view(float[] position, float[]normal, float[] direction) {
+        Matrix4f raw = new Matrix4f();
+        raw.identity();
+        float[] view = new float[16];
+        raw.get(view);
+        return view;
+    }
+
 }

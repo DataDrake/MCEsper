@@ -19,8 +19,6 @@ package com.datadrake.mcesper.engine.graphics;
 
 import org.lwjgl.glfw.GLFWVidMode;
 
-import java.awt.*;
-
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.glfw.GLFW.glfwShowWindow;

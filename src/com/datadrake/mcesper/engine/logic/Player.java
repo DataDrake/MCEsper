@@ -17,40 +17,36 @@
 
 package com.datadrake.mcesper.engine.logic;
 
-import com.datadrake.mcesper.engine.data.vbo.FloatVBO;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-
+import com.datadrake.mcesper.engine.data.UniformStore;
+import com.datadrake.mcesper.engine.data.uniform.UniformMat4;
+import com.datadrake.mcesper.util.MatrixUtil;
 /**
  * The Player object
  */
 public class Player {
 
     private final static float PLAYER_HEIGHT = 0.1f;
-    private final static int VBO_POSITION = 0;
-    private final static int VBO_NORMAL = 1;
-    private final static int VBO_DIRECTION = 2;
 
-    //VAO
-    private int vaoID;
+    private float[] position;
+    private float[] normal;
+    private float[] direction;
 
-    // VBO
-    private FloatVBO position;
-    private FloatVBO normal;
-    private FloatVBO direction;
+    private UniformMat4 transform;
+    private UniformMat4 view;
+
 
     /**
      * Constructor
      */
-    public Player() {
-        vaoID = GL30.glGenVertexArrays();
-        bind();
-        position = new FloatVBO(VBO_POSITION, 3, GL15.GL_ARRAY_BUFFER, new float[]{0, 0, 0});
-        normal = new FloatVBO(VBO_NORMAL, 3, GL15.GL_ARRAY_BUFFER, new float[]{0, 1, 0});
-        direction = new FloatVBO(VBO_DIRECTION, 3, GL15.GL_ARRAY_BUFFER, new float[]{0, 0, -1});
-        unbind();
+    public Player(UniformStore uniforms) {
+        position = new float[]{0, 0, 0};
+        normal = new float[]{0, 1, 0};
+        direction = new float[]{0, 0, -1};
+
+        transform = new UniformMat4("transform", MatrixUtil.transform(new float[]{0, 0, -2}, new float[]{0, 0, 0}, 1f));
+        uniforms.put("transform", transform);
+        view = new UniformMat4("view", MatrixUtil.view(position, normal, direction));
+        uniforms.put("view", view);
     }
 
     /**
@@ -59,7 +55,7 @@ public class Player {
      * @return the (X,Y,Z) coords of the player
      */
     public float[] getPosition() {
-        return position.getLast();
+        return position;
     }
 
     /**
@@ -68,7 +64,7 @@ public class Player {
      * @return the (X,Y,Z) coords of the player's normal vector
      */
     public float[] getNormal() {
-        return normal.getLast();
+        return normal;
     }
 
     /**
@@ -77,30 +73,7 @@ public class Player {
      * @return the (X,Y,Z) coords of the player's view vector
      */
     public float[] getDirection() {
-        return direction.getLast();
-    }
-
-    public void bind() {
-        GL30.glBindVertexArray(vaoID);
-    }
-
-    public void unbind() {
-        GL30.glBindVertexArray(0);
-    }
-
-    public void free() {
-        GL30.glDeleteVertexArrays(vaoID);
-        position.free();
-        normal.free();
-        direction.free();
-    }
-
-    public void render() {
-        bind();
-        GL20.glEnableVertexAttribArray(0);
-        GL11.glDrawArrays(GL11.GL_POINT, 0, 1);
-        GL20.glDisableVertexAttribArray(0);
-        unbind();
+        return direction;
     }
 
 }

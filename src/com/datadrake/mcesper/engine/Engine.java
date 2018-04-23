@@ -18,7 +18,6 @@
 package com.datadrake.mcesper.engine;
 
 import com.datadrake.mcesper.engine.graphics.WindowManager;
-import com.datadrake.mcesper.engine.logic.Player;
 import com.datadrake.mcesper.game.Level1;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -31,8 +30,6 @@ import static org.lwjgl.opengl.GL11.*;
  * The actual game Engine
  */
 public class Engine {
-
-    private Player player;
     private Level level;
 
     /**
@@ -57,7 +54,6 @@ public class Engine {
         GL.createCapabilities();
 
         System.out.println(GL11.glGetString(GL11.GL_VERSION));
-        player = new Player();
 
         level = new Level1();
     }
@@ -82,7 +78,6 @@ public class Engine {
      */
     public void close() {
         WindowManager.close();
-        player.free();
         level.free();
         // Terminate GLFW and free the error callback
         glfwTerminate();
