@@ -20,6 +20,7 @@ package com.datadrake.mcesper.engine;
 import com.datadrake.mcesper.engine.data.UniformStore;
 import com.datadrake.mcesper.engine.graphics.shaders.ShaderStore;
 import com.datadrake.mcesper.engine.graphics.shaders.programs.ShaderProgram;
+import com.datadrake.mcesper.engine.logic.Input;
 import com.datadrake.mcesper.engine.logic.Player;
 import com.datadrake.mcesper.engine.logic.World;
 
@@ -49,6 +50,7 @@ public abstract class Level {
 
         world = new World(uniforms);
         player = new Player(uniforms);
+        Input.setPlayer(player);
 
         loadPrograms();
     }

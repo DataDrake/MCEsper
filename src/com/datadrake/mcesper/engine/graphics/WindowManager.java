@@ -17,6 +17,7 @@
 
 package com.datadrake.mcesper.engine.graphics;
 
+import com.datadrake.mcesper.engine.logic.Input;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -113,13 +114,8 @@ public class WindowManager {
      * Register an input handler for dealing with User input
      */
     public static void registerInputHandler() {
-        // TODO: Make this use an actual class
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(manager.ID, (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
-            }
-        });
+        glfwSetKeyCallback(manager.ID, Input::keyhandler);
     }
 
     /**
