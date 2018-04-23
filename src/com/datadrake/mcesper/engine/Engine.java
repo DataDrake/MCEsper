@@ -62,10 +62,12 @@ public class Engine {
      * Finish setup and actually start the game
      */
     public void run() {
-
+        glEnable(GL11.GL_DEPTH_TEST);
+        glEnable(GL11.GL_CULL_FACE);
+        glCullFace(GL11.GL_BACK);
         glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
         while (WindowManager.isValid()) {
-            glEnable(GL11.GL_DEPTH_TEST);
+
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             level.update();

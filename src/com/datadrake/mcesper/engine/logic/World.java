@@ -27,7 +27,7 @@ public class World {
 
     private static final float FIELD_OF_VIEW = 70;
     private static final float NEAR_PLANE = 0.1f;
-    private static final float FAR_PLANE = 1000f;
+    private static final float FAR_PLANE = 100f;
 
     private UniformMat4 projection;
 

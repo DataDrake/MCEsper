@@ -22,19 +22,27 @@ import static org.lwjgl.glfw.GLFW.*;
 public class Input {
 
     private static Player player;
-    private static double xpos_old = 0, ypos_old = 0;
+    private static double lastX;
+    private static double lastY;
+    private static boolean mouseFirst = true;
 
     public static void setPlayer(Player user) {
         player = user;
     }
 
     public static void cursorhandler(long window, double xpos, double ypos) {
-        double dx = xpos - xpos_old;
-        double dy = ypos - ypos_old;
-        player.pivot(new float[]{(float)dx,(float)dy,0});
+        if (mouseFirst) {
+            lastX = xpos;
+            lastY = ypos;
+            mouseFirst = false;
+        }
 
-        xpos_old = xpos;
-        ypos_old = ypos;
+        float dx = (float)xpos - (float)lastX;
+        float dy = (float)lastY - (float)ypos;
+        lastX = xpos;
+        lastY = ypos;
+
+        player.pivot(dx, dy);
     }
 
     public static void keyhandler(long window, int key, int scancode, int action, int mods) {
@@ -50,16 +58,16 @@ public class Input {
         case GLFW_REPEAT:
             switch( key ) {
             case GLFW_KEY_W: // Up
-                player.move(new float[]{0,0,-0.5f});
+                player.move(Player.STRAFE_FORWARD);
                 break;
             case GLFW_KEY_S: // Down
-                player.move(new float[]{0,0,0.5f});
+                player.move(Player.STRAFE_BACK);
                 break;
             case GLFW_KEY_A: // Left
-                player.move(new float[]{-0.5f,0,0});
+                player.move(Player.STRAFE_LEFT);
                 break;
             case GLFW_KEY_D: // Right
-                player.move(new float[]{0.5f,0,0});
+                player.move(Player.STRAFE_RIGHT);
                 break;
             }
             break;

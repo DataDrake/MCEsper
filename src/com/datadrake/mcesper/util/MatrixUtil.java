@@ -18,6 +18,7 @@
 package com.datadrake.mcesper.util;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 /**
  * MatrixUtil is a collection of useful matrix operations
@@ -39,11 +40,11 @@ public class MatrixUtil {
     public static Matrix4f transform(float[] translate, float[] rotate, float scale) {
         Matrix4f raw = new Matrix4f();
         raw.identity();
-        raw.translate(translate[0], translate[1], translate[2], raw);
-        raw.rotate((float)Math.toRadians(rotate[0]), 1, 0, 0, raw);
-        raw.rotate((float)Math.toRadians(rotate[1]), 0, 1, 0, raw);
-        raw.rotate((float)Math.toRadians(rotate[2]), 0, 0, 1, raw);
-        raw.scale(scale, raw);
+        raw.translate(translate[0], translate[1], translate[2]);
+        raw.rotate((float)Math.toRadians(rotate[0]), 1, 0, 0);
+        raw.rotate((float)Math.toRadians(rotate[1]), 0, 1, 0);
+        raw.rotate((float)Math.toRadians(rotate[2]), 0, 0, 1);
+        raw.scale(scale);
         return raw;
     }
 
@@ -65,26 +66,16 @@ public class MatrixUtil {
      */
     public static Matrix4f project(float fov, float near, float far, int width, int height) {
         float aspect = (float)width / (float)height;
-        float sy = (1f / (float)Math.tan(Math.toRadians(fov / 2f))) * aspect;
-        float sx = sy / aspect;
-        float sz = -((far + near) / (far - near));
-        float wz = -((2f * near * far) / (far - near));
         Matrix4f raw = new Matrix4f();
-        raw._m00(sx);
-        raw._m11(sy);
-        raw._m22(sz);
-        raw._m23(-1);
-        raw._m32(wz);
+        raw.perspective((float)Math.toRadians(fov / 2), aspect, near, far);
         return raw;
     }
 
-    public static Matrix4f view(float[] position, float[]normal, float[] rotation) {
+    public static Matrix4f view(Vector3f position, Vector3f front, Vector3f up) {
+        Vector3f center = new Vector3f();
+        position.add(front, center);
         Matrix4f raw = new Matrix4f();
-        raw.identity();
-        raw.rotateXYZ((float)Math.toRadians(rotation[0]),
-                      (float)Math.toRadians(rotation[1]),
-                      (float)Math.toRadians(rotation[2]));
-        raw.translate(-1*position[0],-1*position[1], -1*position[2]);
+        raw.lookAt(position, center, up, raw);
         return raw;
     }
 
