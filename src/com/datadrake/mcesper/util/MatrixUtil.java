@@ -78,9 +78,13 @@ public class MatrixUtil {
         return raw;
     }
 
-    public static Matrix4f view(float[] position, float[]normal, float[] direction) {
+    public static Matrix4f view(float[] position, float[]normal, float[] rotation) {
         Matrix4f raw = new Matrix4f();
         raw.identity();
+        raw.rotateXYZ((float)Math.toRadians(rotation[0]),
+                      (float)Math.toRadians(rotation[1]),
+                      (float)Math.toRadians(rotation[2]));
+        raw.translate(-1*position[0],-1*position[1], -1*position[2]);
         return raw;
     }
 

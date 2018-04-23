@@ -29,7 +29,7 @@ public class Player {
 
     private float[] position;
     private float[] normal;
-    private float[] direction;
+    private float[] rotation;
 
     private UniformMat4 transform;
     private UniformMat4 view;
@@ -41,12 +41,26 @@ public class Player {
     public Player(UniformStore uniforms) {
         position = new float[]{0, 0, 0};
         normal = new float[]{0, 1, 0};
-        direction = new float[]{0, 0, -1};
+        rotation = new float[]{0, 0, 0};
 
         transform = new UniformMat4("transform", MatrixUtil.transform(new float[]{0, 0, -2}, new float[]{0, 0, 0}, 1f));
         uniforms.put("transform", transform);
-        view = new UniformMat4("view", MatrixUtil.view(position, normal, direction));
+        view = new UniformMat4("view", MatrixUtil.view(position, normal, rotation));
         uniforms.put("view", view);
+    }
+
+    public void move(float[] direction) {
+        for (int i = 0; i < 3; i++) {
+            position[i] += direction[i];
+        }
+        view.update(MatrixUtil.view(position,normal,rotation));
+    }
+
+    public void pivot(float[] rotation) {
+        for (int i = 0; i < 3; i++) {
+            this.rotation[i] += rotation[i];
+        }
+        view.update(MatrixUtil.view(position,normal,this.rotation));
     }
 
     /**
@@ -68,12 +82,12 @@ public class Player {
     }
 
     /**
-     * Get the player's current view direction in the world
+     * Get the player's current view rotation in the world
      *
      * @return the (X,Y,Z) coords of the player's view vector
      */
-    public float[] getDirection() {
-        return direction;
+    public float[] getRotation() {
+        return rotation;
     }
 
 }

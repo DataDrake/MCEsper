@@ -66,7 +66,6 @@ public class UniformMat4 extends Uniform {
         if (location > -1) {
             value.get(buff);
             GL20.glUniformMatrix4fv(location, false, buff);
-            buff.flip();
         }
     }
 }
