@@ -62,6 +62,7 @@ public class WindowManager {
         if (ID == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
+        glfwSetInputMode(ID, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     }
 
     /**

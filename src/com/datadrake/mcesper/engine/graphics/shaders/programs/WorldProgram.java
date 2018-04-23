@@ -19,6 +19,7 @@ package com.datadrake.mcesper.engine.graphics.shaders.programs;
 
 import com.datadrake.mcesper.engine.data.UniformStore;
 import com.datadrake.mcesper.engine.data.uniform.UniformMat4;
+import com.datadrake.mcesper.engine.data.uniform.UniformVec3;
 import com.datadrake.mcesper.engine.data.uniform.UniformVec3Array;
 import com.datadrake.mcesper.engine.graphics.shaders.ShaderStore;
 import org.joml.Matrix4f;
@@ -68,6 +69,10 @@ public class WorldProgram extends ShaderProgram {
         });
         this.uniforms.put("vertices", vertices);
         bindUniform("vertices");
+
+        UniformVec3 light = new UniformVec3("light", new float[] {0, 4, 0});
+        this.uniforms.put("light", light);
+        bindUniform("light");
     }
 
     @Override

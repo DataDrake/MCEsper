@@ -29,7 +29,12 @@ public class Input {
     }
 
     public static void cursorhandler(long window, double xpos, double ypos) {
-        float rX, ry;
+        double dx = xpos - xpos_old;
+        double dy = ypos - ypos_old;
+        player.pivot(new float[]{(float)dx,(float)dy,0});
+
+        xpos_old = xpos;
+        ypos_old = ypos;
     }
 
     public static void keyhandler(long window, int key, int scancode, int action, int mods) {
