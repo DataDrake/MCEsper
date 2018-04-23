@@ -19,6 +19,7 @@ package com.datadrake.mcesper.engine.logic;
 
 import com.datadrake.mcesper.engine.data.UniformStore;
 import com.datadrake.mcesper.engine.data.uniform.UniformMat4;
+import com.datadrake.mcesper.engine.data.uniform.UniformVec3;
 import com.datadrake.mcesper.util.MatrixUtil;
 /**
  * The Player object
