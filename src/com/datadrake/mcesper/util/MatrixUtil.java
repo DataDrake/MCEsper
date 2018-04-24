@@ -20,6 +20,8 @@ package com.datadrake.mcesper.util;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import java.util.Vector;
+
 /**
  * MatrixUtil is a collection of useful matrix operations
  */
@@ -40,10 +42,10 @@ public class MatrixUtil {
     public static Matrix4f transform(float[] translate, float[] rotate, float scale) {
         Matrix4f raw = new Matrix4f();
         raw.identity();
-        raw.translate(translate[0], translate[1], translate[2]);
-        raw.rotate((float)Math.toRadians(rotate[0]), 1, 0, 0);
-        raw.rotate((float)Math.toRadians(rotate[1]), 0, 1, 0);
-        raw.rotate((float)Math.toRadians(rotate[2]), 0, 0, 1);
+        //raw.translate(translate[0], translate[1], translate[2]);
+        //raw.rotate((float)Math.toRadians(rotate[0]), 1, 0, 0);
+        //raw.rotate((float)Math.toRadians(rotate[1]), 0, 1, 0);
+        //raw.rotate((float)Math.toRadians(rotate[2]), 0, 0, 1);
         raw.scale(scale);
         return raw;
     }
@@ -67,7 +69,7 @@ public class MatrixUtil {
     public static Matrix4f project(float fov, float near, float far, int width, int height) {
         float aspect = (float)width / (float)height;
         Matrix4f raw = new Matrix4f();
-        raw.perspective((float)Math.toRadians(fov / 2), aspect, near, far);
+        raw.perspective((float)Math.toRadians(fov), aspect, near, far);
         return raw;
     }
 

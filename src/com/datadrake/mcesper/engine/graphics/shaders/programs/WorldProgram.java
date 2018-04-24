@@ -57,20 +57,42 @@ public class WorldProgram extends ShaderProgram {
         bindUniform("view");
         bindUniform("projection");
 
-        UniformVec3Array vertices = new UniformVec3Array("vertices", new float[] {
-             1f, 1f,-1f,
-            -1f, 1f,-1f,
-             1f, 1f, 1f,
+/*        UniformVec3Array vertices = new UniformVec3Array("vertices", new float[] {
             -1f, 1f, 1f,
+             1f, 1f, 1f,
             -1f,-1f, 1f,
+             1f,-1f, 1f,
             -1f,-1f,-1f,
              1f,-1f,-1f,
-             1f,-1f, 1f
+            -1f, 1f,-1f,
+             1f, 1f,-1f
+        });*/
+
+        UniformVec3Array vertices = new UniformVec3Array("vertices", new float[] {
+                 1f, 1f,-1f,
+                -1f, 1f,-1f,
+                 1f, 1f, 1f,
+                -1f, 1f, 1f,
+                -1f,-1f, 1f,
+                -1f,-1f,-1f,
+                 1f,-1f,-1f,
+                 1f,-1f, 1f
         });
         this.uniforms.put("vertices", vertices);
         bindUniform("vertices");
 
-        UniformVec3 light = new UniformVec3("light", new float[] {0, 4, 0});
+        UniformVec3Array normals = new UniformVec3Array("normals", new float[] {
+                 0f, 0f, 1f,
+                 1f, 0f, 0f,
+                 0f, 0f,-1f,
+                -1f, 0f, 0f,
+                 0f, 1f, 0f,
+                 0f,-1f, 0f
+        });
+        this.uniforms.put("normals", normals);
+        bindUniform("vertices");
+
+        UniformVec3 light = new UniformVec3("light", new float[] {0, 30, 0});
         this.uniforms.put("light", light);
         bindUniform("light");
     }

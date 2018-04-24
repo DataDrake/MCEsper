@@ -42,6 +42,8 @@ public class Player {
     private Vector3f position;
     private Vector3f front;
     private Vector3f up;
+    private Vector3f upRot;
+    private Vector3f right;
     private Vector2f rotation;
 
     private UniformMat4 transform;
@@ -58,11 +60,13 @@ public class Player {
         position = new Vector3f().set(0, 0, 3);
         front = new Vector3f().set(0,0,-1f);
         up = new Vector3f().set(0,1,0);
+        upRot = new Vector3f().set(up);
+        right = new Vector3f().set(1, 0, 0);
 
         rotation = new Vector2f().set(-90,0);
         setFront();
 
-        transform = new UniformMat4("transform", MatrixUtil.transform(new float[]{0, 0, -2}, new float[]{0, 0, 0}, 1f));
+        transform = new UniformMat4("transform", MatrixUtil.transform(new float[]{0, 0, 0}, new float[]{0, 0, 0}, 0.1f));
         uniforms.put("transform", transform);
         view = new UniformMat4("view", MatrixUtil.view(position, front, up));
         uniforms.put("view", view);
@@ -72,6 +76,10 @@ public class Player {
     }
 
     private void setFront() {
+/*        upRot.set(up).rotateX((float)Math.toRadians(rotation.y));
+        Vector3f rightRot = new Vector3f().set(right).rotateY((float)Math.toRadians(-1*rotation.x));
+        upRot.cross(rightRot, front);
+        front.normalize();*/
         front.set(
                 (float)(Math.cos(Math.toRadians(rotation.y)) * Math.cos(Math.toRadians(rotation.x))),
                 (float)(Math.sin(Math.toRadians(rotation.y))),
@@ -84,7 +92,7 @@ public class Player {
         double newTime = GLFW.glfwGetTime();
         float amount = 1f *(float) (newTime - oldTime);
         oldTime = newTime;
-        if (amount > 0.05f) { amount = 0.05f; }
+        if (amount > 0.1f) { amount = 0.1f; }
         Vector3f dz = new Vector3f();
         front.mul(amount,dz);
         Vector3f dy = new Vector3f();
@@ -109,7 +117,7 @@ public class Player {
     }
 
     public void pivot(float dx, float dy) {
-        rotation.add(dx*0.5f,dy*0.5f);
+        rotation.add(dx*200f,dy*100f);
         if( rotation.y > 60f ) {
             rotation.y = 60f;
         }

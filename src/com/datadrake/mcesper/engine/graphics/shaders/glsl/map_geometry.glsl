@@ -1,7 +1,7 @@
 #version 400 core
 
 layout (points) in;
-layout (triangle_strip, max_vertices=36) out;
+layout (triangle_strip, max_vertices=14) out;
 
 
 in vec3 color[];
@@ -23,7 +23,7 @@ void main() {
     vec4 basePos = gl_in[0].gl_Position;
     for(int i = 0; i < 14; i++) {
         vec3 vertex = vertices[indices[i]];
-        gl_Position = basePos + vec4(vertex, 1);
+        gl_Position = basePos + 0.01f*vec4(vertex, 1);
         vec3 lightNormal = normalize(light - gl_Position.xyz);
         vec3 surfaceNormal = normalize((transform * vec4(vertex, 0)).xyz);
         vec3 cameraNormal = normalize((inverse(view) * vec4(0,0,0,1)).xyz - gl_Position.xyz);

@@ -17,6 +17,11 @@
 
 package com.datadrake.mcesper.engine.logic;
 
+import com.datadrake.mcesper.engine.graphics.WindowManager;
+import org.lwjgl.glfw.GLFW;
+
+import java.awt.*;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Input {
@@ -26,12 +31,15 @@ public class Input {
     private static double lastY;
     private static boolean mouseFirst = true;
 
+    private static float width = (float)WindowManager.getWidth();
+    private static float height = (float)WindowManager.getHeight();
+
     public static void setPlayer(Player user) {
         player = user;
     }
 
     public static void cursorhandler(long window, double xpos, double ypos) {
-        if (mouseFirst) {
+/*        if (mouseFirst) {
             lastX = xpos;
             lastY = ypos;
             mouseFirst = false;
@@ -40,9 +48,13 @@ public class Input {
         float dx = (float)xpos - (float)lastX;
         float dy = (float)lastY - (float)ypos;
         lastX = xpos;
-        lastY = ypos;
+        lastY = ypos;*/
+
+        float dx = (float)xpos/width - 0.5f;
+        float dy = 0.5f - (float)ypos/height;
 
         player.pivot(dx, dy);
+        glfwSetCursorPos(window, WindowManager.getWidth()/2, WindowManager.getHeight()/2);
     }
 
     public static void keyhandler(long window, int key, int scancode, int action, int mods) {

@@ -48,12 +48,21 @@ public class Map implements Renderable {
     public Map() {
         vaoID = GL30.glGenVertexArrays();
         bind();
-        position = new FloatVBO(VBO_POSITION, 3, GL15.GL_ARRAY_BUFFER, new float[]{-0.5f, -0.5f, 0,
-                                                                                            0.5f, -0.5f, 0,
-                                                                                            -0.5f, 0.5f, 0,
-                                                                                            0.5f, 0.5f, 0});
+        float positions [] = new float[16*16*16*3];
+        int i = 0;
+        for (int z = 0; z < 16; z++) {
+            for (int y = 0; y < 16; y++ ) {
+                for (int x = 0; x < 16; x++) {
+                    positions[i] = (float)x*0.1f;
+                    positions[i+1] = (float)y*0.1f;
+                    positions[i+2] = (float)z*0.1f;
+                    i += 3;
+                }
+            }
+        }
+        position = new FloatVBO(VBO_POSITION, 3, GL15.GL_ARRAY_BUFFER, positions);
         // normal = new FloatVBO(VBO_NORMAL, 3, new float[]{0, 1, 0});
-        indices = new UintVBO(VBO_INDICES, 1, GL15.GL_ELEMENT_ARRAY_BUFFER, new int[]{0,1,2,2,1,3});
+        //indices = new UintVBO(VBO_INDICES, 1, GL15.GL_ELEMENT_ARRAY_BUFFER, new int[]{0,1,2,2,1,3});
         unbind();
     }
 
@@ -98,16 +107,14 @@ public class Map implements Renderable {
         GL30.glDeleteVertexArrays(vaoID);
         position.free();
         //normal.free();
-        indices.free();
+        //indices.free();
     }
 
     public void render() {
         bind();
         position.bind();
         GL20.glEnableVertexAttribArray(VBO_POSITION);
-        //indices.bind();
-        GL11.glDrawArrays(GL11.GL_POINTS, 0, 1);
-        //indices.unbind();
+        GL11.glDrawArrays(GL11.GL_POINTS, 0, 16*16*16);
         GL20.glDisableVertexAttribArray(VBO_POSITION);
         position.unbind();
         unbind();
