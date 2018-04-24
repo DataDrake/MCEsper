@@ -22,6 +22,7 @@ import com.datadrake.mcesper.engine.data.uniform.UniformMat4;
 import com.datadrake.mcesper.util.MatrixUtil;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.Vector;
 
@@ -46,6 +47,8 @@ public class Player {
     private UniformMat4 transform;
     private UniformMat4 view;
 
+    private double oldTime;
+
 
     /**
      * Constructor
@@ -63,6 +66,8 @@ public class Player {
         uniforms.put("transform", transform);
         view = new UniformMat4("view", MatrixUtil.view(position, front, up));
         uniforms.put("view", view);
+
+        oldTime = GLFW.glfwGetTime();
         
     }
 
@@ -76,7 +81,10 @@ public class Player {
 
 
     public void move(int dir) {
-        float amount = 0.1f;
+        double newTime = GLFW.glfwGetTime();
+        float amount = 1f *(float) (newTime - oldTime);
+        oldTime = newTime;
+        if (amount > 0.05f) { amount = 0.05f; }
         Vector3f dz = new Vector3f();
         front.mul(amount,dz);
         Vector3f dy = new Vector3f();
@@ -102,13 +110,13 @@ public class Player {
 
     public void pivot(float dx, float dy) {
         rotation.add(dx*0.5f,dy*0.5f);
-        if( rotation.y > 89f ) {
-            rotation.y = 89f;
+        if( rotation.y > 60f ) {
+            rotation.y = 60f;
         }
-        if (rotation.y < -89f) {
-            rotation.y = -89f;
+        if (rotation.y < -60f) {
+            rotation.y = -60f;
         }
-        rotation.x = rotation.x % 360.0f;
+        //rotation.x = rotation.x % 360.0f;
         setFront();
         view.update(MatrixUtil.view(position, front, up));
     }
