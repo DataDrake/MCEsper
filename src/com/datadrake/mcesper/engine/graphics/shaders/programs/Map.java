@@ -30,6 +30,8 @@ import org.lwjgl.opengl.GL30;
  */
 public class Map implements Renderable {
 
+    private final static int SIZE = 200;
+
     private final static int VBO_POSITION = 0;
     //private final static int VBO_NORMAL = 1;
     private final static int VBO_INDICES = 2;
@@ -48,14 +50,14 @@ public class Map implements Renderable {
     public Map() {
         vaoID = GL30.glGenVertexArrays();
         bind();
-        float positions [] = new float[16*16*16*3];
+        float positions [] = new float[SIZE*SIZE*3];
         int i = 0;
-        for (int z = 0; z < 16; z++) {
-            for (int y = 0; y < 16; y++ ) {
-                for (int x = 0; x < 16; x++) {
-                    positions[i] = (float)x*0.1f;
-                    positions[i+1] = (float)y*0.1f;
-                    positions[i+2] = (float)z*0.1f;
+        for (int z = 0; z < SIZE; z++) {
+            for (int y = 0; y < 1; y++ ) {
+                for (int x = 0; x < SIZE; x++) {
+                    positions[i] = (float)x*0.02f;
+                    positions[i+1] = (float)y*0.02f;
+                    positions[i+2] = (float)z*0.02f;
                     i += 3;
                 }
             }
@@ -114,7 +116,7 @@ public class Map implements Renderable {
         bind();
         position.bind();
         GL20.glEnableVertexAttribArray(VBO_POSITION);
-        GL11.glDrawArrays(GL11.GL_POINTS, 0, 16*16*16);
+        GL11.glDrawArrays(GL11.GL_POINTS, 0, SIZE*SIZE);
         GL20.glDisableVertexAttribArray(VBO_POSITION);
         position.unbind();
         unbind();

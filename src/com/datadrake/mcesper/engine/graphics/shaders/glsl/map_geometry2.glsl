@@ -39,12 +39,15 @@ void genFace(int face){
     int offset = face*4;
     vec4 basePos = gl_in[0].gl_Position;
     vec3 normal = normals[face];
+    vec3 nColor = normalColor(normal+vertices[indices[offset]]);
+    mat4 pv = projection*view;
     for ( int i = 0; i < 4; i++) {
         vec3 vertex = vertices[indices[i+offset]];
         vec4 pos = basePos + vec4(vertex, 1);
-        fragColor = normalColor(normal+vertex);
+        fragColor = nColor;
+        //fragColor = normalColor(normal+vertex);
         //fragColor = vec3(0,1,0);
-        gl_Position = projection * view * pos;
+        gl_Position = pv * pos;
         EmitVertex();
     }
     EndPrimitive();

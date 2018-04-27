@@ -51,6 +51,7 @@ public class Engine {
         WindowManager.registerInputHandler();
         // Show the window
         WindowManager.open(true);
+
         GL.createCapabilities();
 
         System.out.println(GL11.glGetString(GL11.GL_VERSION));
@@ -62,9 +63,10 @@ public class Engine {
      * Finish setup and actually start the game
      */
     public void run() {
+
         glEnable(GL11.GL_DEPTH_TEST);
-        //glEnable(GL11.GL_CULL_FACE);
-        //glCullFace(GL11.GL_BACK);
+        glEnable(GL11.GL_CULL_FACE);
+        glCullFace(GL11.GL_BACK);
         glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
         while (WindowManager.isValid()) {
 

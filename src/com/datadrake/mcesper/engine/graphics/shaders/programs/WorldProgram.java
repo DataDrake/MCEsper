@@ -92,7 +92,7 @@ public class WorldProgram extends ShaderProgram {
         this.uniforms.put("normals", normals);
         bindUniform("vertices");
 
-        UniformVec3 light = new UniformVec3("light", new float[] {0, 30, 0});
+        UniformVec3 light = new UniformVec3("light", new float[] {0, 1000, 0});
         this.uniforms.put("light", light);
         bindUniform("light");
     }

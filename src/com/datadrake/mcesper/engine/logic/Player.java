@@ -66,7 +66,7 @@ public class Player {
         rotation = new Vector2f().set(-90,0);
         setFront();
 
-        transform = new UniformMat4("transform", MatrixUtil.transform(new float[]{0, 0, 0}, new float[]{0, 0, 0}, 0.1f));
+        transform = new UniformMat4("transform", MatrixUtil.transform(new float[]{0, 0, 0}, new float[]{0, 0, 0}, 1f));
         uniforms.put("transform", transform);
         view = new UniformMat4("view", MatrixUtil.view(position, front, up));
         uniforms.put("view", view);

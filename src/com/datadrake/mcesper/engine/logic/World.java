@@ -26,7 +26,7 @@ import org.joml.Matrix4f;
 public class World {
 
     private static final float FIELD_OF_VIEW = 45;
-    private static final float NEAR_PLANE = 0.1f;
+    private static final float NEAR_PLANE = 0.001f;
     private static final float FAR_PLANE = 100f;
 
     private UniformMat4 projection;
